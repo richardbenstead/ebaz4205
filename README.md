@@ -1,2 +1,2 @@
 # ebaz4205
-Projects using ebaz4205 Zynq board
+Projects using a ebaz4205 Zynq Arm/FPGA board
