@@ -1,0 +1,74 @@
+/include/ "system-conf.dtsi"
+/ {
+    model = "Zynq EBAZ4205 Board";
+
+    aliases {
+        ethernet0 = &gem0;
+        serial0 = &uart1;
+        mmc0 = &sdhci0;
+        nand0 = &nand0;
+    };
+
+    gpio-leds {
+        compatible = "gpio-leds";
+
+	led-red {
+            label = "led-red";
+            gpios = <&gpio0 54 1>;
+            default-state = "off";
+        };
+
+        led-green {
+            label = "led-green";
+            gpios = <&gpio0 55 1>;
+            default-state = "off";
+        };
+    };
+
+    gpio-keys {
+        compatible = "gpio-keys";
+        autorepeat;
+
+        s2 {
+            label = "s2";
+            gpios = <&gpio0 20 1>;
+            linux,code = <102>;
+            wakeup-source;
+        };
+
+        s3 {
+            label = "s3";
+            gpios = <&gpio0 32 1>;
+            linux,code = <116>;
+            wakeup-source;
+        };
+    };
+};
+&spi0 {
+	status = "okay";
+	num-cs = <1>;
+	display@0{
+		compatible = "ilitek,ili9341";
+		reg = <0>;
+		rotate = <270>;
+		spi-max-frequency = <50000000>;
+                buswidth = <8>;
+		bgr;
+		fps = <30>;
+		led-gpios = <&gpio0 56 1>;
+		dc-gpios = <&gpio0 57 0>;
+	//	reset-gpios = <&gpio0 57 1>;
+	};
+	touchScreen@1 {
+		compatible = "ti,ads7846";
+		reg = <1>;
+
+		spi-max-frequency = <2000000>;
+		// interrupts = <17 2>; /* high-to-low edge triggered */
+		// interrupt-parent = <&gpio>;
+		// pendown-gpio = <&pio 0 1 0>;
+		// ti,x-plate-ohms = /bits/ 16 <60>;
+		// ti,pressure-max = /bits/ 16 <255>;
+	};
+};
+
